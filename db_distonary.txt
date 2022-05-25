@@ -1,0 +1,66 @@
+accessibility доступность
+accessing доступ
+additional дополнительный
+allocator распределитель
+ambiguous неоднозначный
+author автор
+available доступный свободный
+between между
+boolalpha вывод-логики-в-виде-текста-true-false
+capabilities возможности
+comparison сравнение
+complexity сложность
+constraints ограничения
+core ядро
+corner угол
+corrupting испорченный
+decision решение
+decryption дешифрование
+denominator знаменатель
+distonary словарь
+divisor делитель
+duration продолжительность длительность
+entirely полностью, целиком
+equation уравнение
+error ошибка
+evaluated обозначенные, определенные
+experience опыт
+explicit явный примененное перед конструктором, делает так, что такой конструктор не может использоваться для неявных преобразованией типов.
+extremely чрезвычайно, экстремально
+feature особенность
+find найти
+frustrating разочаровывающий
+get взять
+getline взять строку из входного потока до перевода строки
+handling обработка управление
+hint подсказка
+improving улучшать
+inheritance наследование
+initialisation инициализация
+insert вставлять
+issue вопрос
+matching соответствие
+merge слияние
+namespace пространство-имен
+numerator числитель
+overall в целом
+partial частичный
+push_back вставить-назад
+put положить
+query запрос
+queue очередь
+remove удалить
+request запрос
+satisfied удовлетворенный
+setprecision установка-точности
+solution программное решение
+soon скоро
+stack стек складывать в штабель стопка
+substance вещество, субстанция
+survey опрос
+templates шаблоны
+terse краткий
+top верх
+unappealing непривлекательный
+unconstrained неограниченный
+variety разнообразие
