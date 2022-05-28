@@ -1,4 +1,4 @@
-# distonary-programm
+# dictionary-program
 An easy console program for memorizing programming language terms
 
 Как использовать?
