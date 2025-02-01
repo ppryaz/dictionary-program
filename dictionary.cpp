@@ -86,7 +86,6 @@ ostream& operator<<(ostream& os, const map<string, string>& dict) {
 			os << word << ':';
 			os << ' ' << translate << endl;
 		}
-
 	}
 	return os;
 }
@@ -95,8 +94,6 @@ ostream& operator<<(ostream& os, const map<string, string>& dict) {
 class Dictonary {
 private:
 	map<string, string> eng_to_ru_translate;
-	map<string, string>::iterator it = eng_to_ru_translate.begin();
-
 public:
 	
 	void addWord(string& word, string& translate) {
@@ -112,6 +109,7 @@ public:
 	//------------------
 	
 	string deleteWord(const string& word) {
+		map<string, string>::iterator it = eng_to_ru_translate.begin();
 		if (eng_to_ru_translate.count(word)) {
 			it = eng_to_ru_translate.find(word);
 			eng_to_ru_translate.erase(it);
