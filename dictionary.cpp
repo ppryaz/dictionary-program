@@ -1,9 +1,10 @@
-//using C++20
+//	using C++20
 // 
-// Distonary - english to russian -
+// Dictonary - english to russian -
 // vers. 1.0
 // 18.01.2022
 // from Alexandr Ryazanov 
+
 #include <cassert>
 #include <iostream>
 #include <map>
@@ -18,22 +19,23 @@
 using namespace std;
 
 enum class QueryType {
-	AddWord,
+	addWord,
 	AllWord,
 	FindWord,
 	DeleteWord,
-	SaveDistonary,
+	SaveDictonary,
 	Help,
 	Exit,
 	NoType,
 };
 
 struct Query {
-	QueryType type;
-	string eng_word;
-	string translate;
-
+	QueryType 	type;
+	string 		eng_word;
+	string 		translate;
 };
+
+//--------------------------------------------------------------------
 
 istream& operator>>(istream& is, Query& q) {
 	
@@ -41,154 +43,140 @@ istream& operator>>(istream& is, Query& q) {
 	is >> operation_code;
 
 	if (operation_code == "add"s) {
-		q.type = QueryType::AddWord;
+		q.type = QueryType::addWord;
 		string text;
 		is >> q.eng_word;
 		getline(cin, text);
-		q.translate = text;
-		
-	}
-	else if (operation_code == "del"s) {
+		q.translate = text;		
+	} else if (operation_code == "del"s) {
 		q.type = QueryType::DeleteWord;
 		is >> q.eng_word;
-	}
-	else if (operation_code == "find"s) {
+		
+	} else if (operation_code == "find"s) {
 		q.type = QueryType::FindWord;
 		is >> q.eng_word;
-	}
-	else if (operation_code == "all"s) {
+		
+	} else if (operation_code == "all"s) {
 		q.type = QueryType::AllWord;
 
-	}
-	else if (operation_code == "save"s) {
-		q.type = QueryType::SaveDistonary;
+	} else if (operation_code == "save"s) {
+		q.type = QueryType::SaveDictonary;
 
-	}
-	else if (operation_code == "help"s) {
+	} else if (operation_code == "help"s) {
 		q.type = QueryType::Help;
 
-	}
-	else if (operation_code == "exit"s) {
+	} else if (operation_code == "exit"s) {
 		q.type = QueryType::Exit;
 
-	}
-	else if (operation_code != "exit"s) {
+	} else if (operation_code != "exit"s) {
 		q.type = QueryType::NoType;
 		cout << "The command is missing. Type help to find out the supported commands.  " << endl;
-
 	}
-
 
 	return is;
 }
-ostream& operator<<(ostream& os, const map<string, string>& dist) {
 
-	if (dist.empty()) {
+ostream& operator<<(ostream& os, const map<string, string>& dict) {
+
+	if (dict.empty()) {
 		os << "No word";
-	}
-	else {
-
-		for (const auto& [word, translate] : dist) {
+	} else { 
+		for (const auto& [word, translate] : dict) {
+			
 			os << word << ':';
-
 			os << ' ' << translate << endl;
 		}
 
 	}
 	return os;
 }
+//--------------------------------------------------------------------
 
-class Distonary {
-public:
+class Dictonary {
+private:
 	map<string, string> eng_to_ru_translate;
 	map<string, string>::iterator it = eng_to_ru_translate.begin();
 
-	void AddWord(string& word, string& translate) {
-
+public:
+	
+	void addWord(string& word, string& translate) {
 		if (!translate.empty()) {
+			
 			eng_to_ru_translate[word] = translate;
 			cout << word << " " << eng_to_ru_translate[word] << " added" << endl;
-		}
-		else {
+		
+		} else {
 			cout << "You have not entered the transfer, repeat the operation" << endl;
 		}
-
 	}
-
-	string GetDeletWord(const string& word) {
-
-
+	//------------------
+	
+	string deleteWord(const string& word) {
 		if (eng_to_ru_translate.count(word)) {
 			it = eng_to_ru_translate.find(word);
 			eng_to_ru_translate.erase(it);
-
 		}
 		return "Слово: " + word + " удалено";
 	}
-
-	map<string, string> GetAllWord() const {
-
-		return { eng_to_ru_translate };
-	}
-	map<string, string>GetFindWord(const string& word, const map<string, string>& dist) const {
-
-
+	//------------------
+	
+	map<string, string> getAllWord() const { return { eng_to_ru_translate }; }
+	//------------------
+	
+	map<string, string>findWords(const string& word) const {
+		const map<string, string>& dict = eng_to_ru_translate;
 		map<string, string>result = {};
-		for (auto [key, value] : dist) {
+		
+		for (auto [key, value] : dict) {
 			for (int i = 0; i < word.size(); i++) {
-
 				if (word[i] == key[i] && i == word.size() - 1) {
 					result.insert(pair{ key, value });
-				}
-				else if (word[i] == key[i]) {
+				} else if (word[i] == key[i]) {
 					continue;
 				}
 				break;
-
 			}
-		}
+		}		
 		return result;
+		
 	}
-
-	void SaveDataDistonary(const map<string, string>& m) {
+	//---------------------
+	
+	void saveData() {
+		const map<string, string>& m = eng_to_ru_translate;
+		
 		ofstream file;
-		file.open("db_distonary.txt");
-		for (auto& [key, value] : m)
-		{
-			file << key << " " << value << endl;
-		}
+		file.open("db_dictionary.txt");
+		
+		for (auto& [key, value] : m) file << key << " " << value << endl; 
 
 		file.close();
 		cout << "Data saved" << endl;
 	}
-
-	void PrintHelp() {
+	//--------------------
+	
+	void printHelp() {
 		cout << "   List of commands:" << endl;
 		cout << "   add  [eng_word] [translate-from-rus] - add" << endl;
 		cout << "   find [eng_word]                      - find word" << endl;
-		cout << "   del  [eng_word]                      - delete word from distonary" << endl;
+		cout << "   del  [eng_word]                      - delete word from dictonary" << endl;
 		cout << "   all                                  - output of the entire dictionary" << endl;
 		cout << "   help                                 - help by commands " << endl;
 		cout << "   exit                                 - exiting the program" << endl;
-		cout << "--------------------------------------------------------------------------" << endl;
+		cout << "--------------------------------------------------------------------------" <<endl;
 
 	}
-
-	void PrintHeader() {
+	//--------------------
+	
+	void printHeader() {
 		cout << "==========================================================================" << endl;
-		cout << "=========================== Distonary Programm ===========================" << endl;
+		cout << "=========================== Dictonary Programm ===========================" << endl;
 		cout << "================================== MENU ==================================" << endl;
 	}
-
-	void deleteSpaces(std::string& string) {
-		size_t strBegin = string.find_first_not_of(' ');
-		size_t strEnd = string.find_last_not_of(' ');
-		string.erase(strEnd + 1, string.size() - strEnd);
-		string.erase(0, strBegin);
-	}
-
-	void SetDistonaryFromDataFile() {
-		ifstream infile("db_distonary.txt");
+	//--------------------
+	
+	void loadData() {
+		ifstream infile("db_dictionary.txt");
 		string key, value;
 		while (infile >> key) {
 			getline(infile, value);
@@ -196,6 +184,15 @@ public:
 			eng_to_ru_translate[key] = value;
 		}
 	}
+	//--------------------
+	
+private:
+	void deleteSpaces(std::string& string) {
+		size_t strBegin = string.find_first_not_of(' ');
+		size_t strEnd = string.find_last_not_of(' ');
+		string.erase(strEnd + 1, string.size() - strEnd);
+		string.erase(0, strBegin);
+	}	
 };
 
 int main() {
@@ -205,33 +202,33 @@ int main() {
 	setlocale(LC_ALL, "Russian");
 
 	Query q;
-	Distonary dist;
-	dist.PrintHeader();
-	dist.PrintHelp();
-	dist.SetDistonaryFromDataFile();
+	Dictonary dict;
+	dict.printHeader();
+	dict.printHelp();
+	dict.loadData();
 
 	do {
 		cin >> q;
 		switch (q.type) {
-		case QueryType::AddWord:
-			dist.AddWord(q.eng_word, q.translate);
+		case QueryType::addWord:
+			dict.addWord(q.eng_word, q.translate);
 			cout << "---------------------------------------------------" << endl;
 			break;
 		case QueryType::DeleteWord:
-			cout << dist.GetDeletWord(q.eng_word) << "---------------------------------------------------" << endl;
+			cout << dict.deleteWord(q.eng_word) << "---------------------------------------------------" << endl;
 			break;
 		case QueryType::FindWord:
-			cout << dist.GetFindWord(q.eng_word, dist.eng_to_ru_translate) << "---------------------------------------------------" << endl;
+			cout << dict.findWords(q.eng_word) << "---------------------------------------------------" << endl;
 			break;
 		case QueryType::AllWord:
-			cout << dist.GetAllWord() << "---------------------------------------------------" << endl;
+			cout << dict.getAllWord() << "---------------------------------------------------" << endl;
 			break;
-		case QueryType::SaveDistonary:
+		case QueryType::SaveDictonary:
 
-			dist.SaveDataDistonary(dist.eng_to_ru_translate);
+			dict.saveData();
 			break;
 		case QueryType::Help:
-			dist.PrintHelp();
+			dict.printHelp();
 			break;
 		case QueryType::NoType:
 			cin.clear(); // на случай, если предыдущий ввод завершился с ошибкой
@@ -240,10 +237,10 @@ int main() {
 		case QueryType::Exit:
 			break;
 
-		default: cout << "Error unknow";//dist.PrintHelp();
+		default: cout << "Error unknow";//dict.printHelp();
 		}
 	} while (q.type != QueryType::Exit);
-	dist.SaveDataDistonary(dist.eng_to_ru_translate);
+	dict.saveData();
 	cout << "See you soon :)))))";
 
 	//system("pause");
